@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        BankAccount[] db = new BankAccount[5]; // Task 6: Array
+        BankAccount[] db = new BankAccount[5];
         db[0] = new BankAccount("Ali", 1000);
         db[1] = new BankAccount("Sara", 2000);
 
