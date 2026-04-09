@@ -5,11 +5,9 @@ public class Main {
         BankAccount[] db = new BankAccount[5];
         db[0] = new BankAccount("Ali", 1000);
         db[1] = new BankAccount("Sara", 2000);
-
         MyQueue queue = new MyQueue();
         MyStack stack = new MyStack();
         Scanner sc = new Scanner(System.in);
-
         while (true) {
             System.out.println("\n1.Register 2.Approve 3.Deposit 4.Undo 5.Show All 6.Exit");
             int choice = sc.nextInt(); sc.nextLine();
