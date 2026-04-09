@@ -1,20 +1,16 @@
 public class MyStack {
-    private Node top;
+    Node top;
 
-    public void push(BankAccount account) {
-        Node newNode = new Node(account);
+    public void push(BankAccount a) {
+        Node newNode = new Node(a);
         newNode.next = top;
         top = newNode;
     }
 
     public BankAccount pop() {
         if (top == null) return null;
-        BankAccount data = top.data;
+        BankAccount a = top.data;
         top = top.next;
-        return data;
-    }
-
-    public boolean isEmpty() {
-        return top == null;
+        return a;
     }
 }

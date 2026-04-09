@@ -1,15 +1,18 @@
 public class MyQueue {
-    private java.util.LinkedList<BankAccount> list = new java.util.LinkedList<>();
+    Node head, tail;
 
-    public void enqueue(BankAccount account) {
-        list.addLast(account);
+    public void enqueue(BankAccount a) {
+        Node newNode = new Node(a);
+        if (tail == null) { head = tail = newNode; return; }
+        tail.next = newNode;
+        tail = newNode;
     }
 
     public BankAccount dequeue() {
-        return list.pollFirst();
-    }
-
-    public boolean isEmpty() {
-        return list.isEmpty();
+        if (head == null) return null;
+        BankAccount a = head.data;
+        head = head.next;
+        if (head == null) tail = null;
+        return a;
     }
 }

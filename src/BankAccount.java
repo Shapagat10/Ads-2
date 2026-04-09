@@ -1,16 +1,13 @@
 public class BankAccount {
-    String accountNumber;
-    String username;
+    String name;
     double balance;
 
-    public BankAccount(String accountNumber, String username, double balance) {
-        this.accountNumber = accountNumber;
-        this.username = username;
+    public BankAccount(String name, double balance) {
+        this.name = name;
         this.balance = balance;
     }
 
-    @Override
     public String toString() {
-        return username + " (ID: " + accountNumber + ") - Balance: " + (int)balance;
+        return "User: " + name + " | Balance: $" + balance;
     }
 }

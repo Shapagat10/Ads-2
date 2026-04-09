@@ -2,96 +2,45 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        BankAccount[] initialData = new BankAccount[5];
+        BankAccount[] db = new BankAccount[5]; // Task 6: Array
+        db[0] = new BankAccount("Ali", 1000);
+        db[1] = new BankAccount("Sara", 2000);
 
-        initialData[0] = new BankAccount("101", "Ali", 150000);
-        initialData[1] = new BankAccount("102", "Sara", 220000);
-
-        MyQueue accountRequests = new MyQueue();
-        MyStack history = new MyStack();
+        MyQueue queue = new MyQueue();
+        MyStack stack = new MyStack();
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n--- BANK SYSTEM (Custom ADS) ---");
-            System.out.println("1. Submit Account Request (Queue)");
-            System.out.println("2. Admin: Process Request (Queue -> Database)");
-            System.out.println("3. ATM: Deposit (Update Balance & History)");
-            System.out.println("4. ATM: Undo Last Action (Stack)");
-            System.out.println("5. Display All Bank Accounts (Array Traversal - Task 6)");
-            System.out.println("6. Exit");
-
-            System.out.print("Your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            System.out.println("\n1.Register 2.Approve 3.Deposit 4.Undo 5.Show All 6.Exit");
+            int choice = sc.nextInt(); sc.nextLine();
 
             if (choice == 1) {
-                System.out.print("Enter name for new account: ");
-                String name = sc.nextLine();
-                accountRequests.enqueue(new BankAccount("REQ", name, 0));
-                System.out.println("Request added to Queue successfully.");
-
+                System.out.print("Name: ");
+                queue.enqueue(new BankAccount(sc.nextLine(), 0));
             } else if (choice == 2) {
-                if (!accountRequests.isEmpty()) {
-                    BankAccount approved = accountRequests.dequeue();
-
-                    boolean added = false;
-                    for (int i = 0; i < initialData.length; i++) {
-                        if (initialData[i] == null) {
-                            initialData[i] = approved;
-                            System.out.println("Admin approved: " + approved.username + " (Added to DB)");
-                            added = true;
-                            break;
-                        }
-                    }
-                    if (!added) System.out.println("Error: Database is full!");
-                } else {
-                    System.out.println("Queue is empty. No requests to process.");
+                BankAccount a = queue.dequeue();
+                if (a != null) {
+                    for(int i=0; i<5; i++) if(db[i]==null) { db[i]=a; break; }
+                    System.out.println("Approved: " + a.name);
                 }
-
             } else if (choice == 3) {
-                System.out.print("Enter username to deposit: ");
-                String searchName = sc.nextLine();
-                boolean found = false;
-
-                for (BankAccount acc : initialData) {
-                    if (acc != null && acc.username.equalsIgnoreCase(searchName)) {
-                        System.out.print("Enter amount: ");
-                        double amount = sc.nextDouble();
-                        acc.balance += amount;
-                        history.push(acc);
-                        System.out.println("Deposit successful for " + acc.username);
-                        found = true;
+                System.out.print("Name: ");
+                String n = sc.nextLine();
+                for (BankAccount a : db) {
+                    if (a != null && a.name.equalsIgnoreCase(n)) {
+                        System.out.print("Sum: ");
+                        double sum = sc.nextDouble();
+                        a.balance += sum;
+                        stack.push(a);
                         break;
                     }
                 }
-                if (!found) System.out.println("Customer not found in Database.");
-
             } else if (choice == 4) {
-                if (!history.isEmpty()) {
-                    BankAccount lastAcc = history.pop();
-                    System.out.println("Undoing last operation for: " + lastAcc.username);
-                } else {
-                    System.out.println("No history to undo.");
-                }
-
+                BankAccount a = stack.pop();
+                if (a != null) System.out.println("Undo for: " + a.name);
             } else if (choice == 5) {
-                System.out.println("\n--- Current Bank Database ---");
-                boolean hasData = false;
-                for (int i = 0; i < initialData.length; i++) {
-                    if (initialData[i] != null) {
-                        System.out.println("[" + i + "] " + initialData[i]);
-                        hasData = true;
-                    }
-                }
-                if (!hasData) System.out.println("Database is currently empty.");
-
-            } else if (choice == 6) {
-                System.out.println("Exiting system...");
-                break;
-            } else {
-                System.out.println("Invalid choice! Try again.");
-            }
+                for (BankAccount a : db) if (a != null) System.out.println(a);
+            } else break;
         }
-        sc.close();
     }
 }
